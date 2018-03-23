@@ -1,16 +1,18 @@
 """Renames files"""
 import re
+import os
 
 def main():
     """Main Program runner """
-    test_string = "01-asdfasdf01-asdfasf10adsfasd22adsf3344"
-    num_list = re.findall("[0-9]+", test_string)
-    print(num_list)
+    num_list = []
+    for filename in os.listdir(os.getcwd()):
+        print(filename)
+        num_match = re.search("[0-9]+", filename)
+        if num_match:
+            num_list.append(num_match.string)
     max_len = len(max(num_list, key=len))
     print(max_len)
-    new_list = []
-    for str in num_list:
-        new_list.append(str.zfill(max_len))
-    print(new_list)
+    for num in num_list:
+        os.rename(num, num.zfill(max_len))
 if __name__ == '__main__':
     main()
