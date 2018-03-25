@@ -4,22 +4,18 @@ import os
 
 def main():
     """Main Program runner """
-    num_list = []
-    end_list = []
     match_list = []
+    num_list = []
     for filename in os.listdir(os.getcwd()):
-        print(filename)
-        num_match = re.search("[0-9]+", filename)
+        num_match = re.search("([0-9]+)(.*)", filename)
         if num_match:
-            match_list.append(num_match.string)
-            num_list.append(num_match.group(0))
-            end_list.append(filename[num_match.end(0):])
+            match_list.append(num_match)
+            num_list.append(num_match.group(1))
     max_len = len(max(num_list, key=len))
     print(max_len)
-    idx = 0
-    for name in match_list:
-        new_name = num_list[idx].zfill(max_len) + end_list[idx]
+    for match in match_list:
+        name = match.group(0)
+        new_name = match.group(1).zfill(max_len) + match.group(2)
         os.rename(name, new_name)
-        idx += 1
 if __name__ == '__main__':
     main()
